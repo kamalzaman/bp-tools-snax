@@ -1,53 +1,55 @@
 use strict;
-use Net::SMS::TextmagicRest;
-# Author: Eugene Luzgin @ EOS Tribe
-# Install TextMagic:
-# https://www.textmagic.com/docs/api/perl/
-# Crete account, get API key at https://www.textmagic.com/
+use Email::MIME;
+use Email::Sender::Simple qw(sendmail);
 
+# Modified for SNAX by Michael Smith (anarcist)
+# Original Author: Eugene Luzgin @ EOS Tribe
 
-my $prod1_url = "http://<URL1>/v1/chain/get_info";
-my $prod2_url = "http://<URL2>/v1/chain/get_info";
+my $main_node_url = "https://cdn.snax.one/v1/chain/get_info"; # This should be a "trustworthy" node
+my $compare_node_url = "https://snax-node.anarcist.xyz/v1/chain/get_info"; # This is your node
 
-my @PHONES = ("CELL-PHONE");
-my $tm = Net::SMS::TextmagicRest->new(
-    username => "USERNAME",
-    token    => "ACCESS-KEY",
-);
+my $email_from = '<YOUR EMAIL ADDRESS>';
+my $email_to= '<YOUR EMAIL ADDRESS>';
 
-
-my $prod1_stats = `curl --connect-timeout 2 $prod1_url`;
-print "PRD1: ".$prod1_stats."\n";
-my $prod2_stats = `curl --connect-timeout 2 $prod2_url`;
-print "PRD2: ".$prod2_stats."\n";
-my $message = "";
+my $prod1_stats = `curl -s --connect-timeout 2 $main_node_url`;
+print "Main Producer: ".$prod1_stats."\n";
+my $prod2_stats = `curl -s --connect-timeout 2 $compare_node_url`;
+print "Compare Producer: ".$prod2_stats."\n";
+my $message_body = "";
 
 if($prod1_stats=~m/"head_block_num":(\d+)/) {
 	my $prod1_head_block = $1;
-	print "PRD1 Head Block: ".$prod1_head_block."\n";
+	print "Main Producer Head Block: ".$prod1_head_block."\n";
 	if($prod2_stats=~m/"head_block_num":(\d+)/) {
 		my $prod2_head_block = $1;
-		print "PRD2 Head Block: ".$prod2_head_block."\n";
+		print "Compare Producer Head Block: ".$prod2_head_block."\n";
 		my $block_diff = $prod1_head_block - $prod2_head_block;
 		print "Block diff: $block_diff\n";
 		if($block_diff < -10) {
-			$message = "1st producer $block_diff blocks behind 2nd producer!";
+			$message_body = "Main producer $block_diff blocks behind Compare producer!";
 		} elsif($block_diff > 10) {
-			$message = "2nd producer $block_diff blocks behind 1st producer!";
+			$message_body = "Compare producer $block_diff blocks behind Main producer!";
 		}
 	} else {
-		$message = "2nd producer timeout!";
+		$message_body = "Compare producer timeout!";
 	}
 } else {
-	$message = "1st producer timeout!";
+	$message_body = "Main producer timeout!";
 }
 
-# Send SMS Alert if message set:
-if($message ne "") {
-	my $result = $tm->send(
-               text    => $message,
-               phones  => \@PHONES,
-        );
-	print "Sent $message SMS[$result->{id}]\n";
-}
+if (not $message_body eq "") {
+	my $message = Email::MIME->create(
+		header_str => [
+			From    => $email_from,
+			To      => $email_to,
+			Subject => $message_body,
+		],
+		attributes => {
+			encoding => 'quoted-printable',
+			charset  => 'ISO-8859-1',
+		},
+		body_str => $message_body
+	);
 
+	sendmail($message);
+}
