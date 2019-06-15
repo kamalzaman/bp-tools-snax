@@ -1,58 +1,29 @@
-# bp-tools
-### EOS BP Tools 
+# bp-tools-snax
+### SNAX BP Tools
 
-#### restarter.pl - Perl script for monitoring/restarting EOS node and sending SMS alerts oon restart and fail.
-##### Install as a cronjob on your system as often as you would like.
-##### Before you could use the script:
-
-##### 1. Install Perl if not installed
-
-##### 2. Install Perl packages:
-
-sudo cpan install String/CamelCase.pm
-
-sudo cpan install Log::Log4perl
-
-sudo cpan install JSON
-
-sudo cpan install REST::Client
-
-When running script - if you get message about missing module name,
-just run: sudo cpan install module_name.
-
-##### 3. Install TextMagic: https://github.com/textmagic/textmagic-rest-perl 
-
-##### 4. Get account with TestMagic API: https://www.textmagic.com/docs/api/
-
-### List of scripts:
-
-#### restarter.pl - Automated script to detect and restart nodeos process.
+#### restarter.pl - Automated script to detect and restart `snaxnode` process.
 NOTE: If restart fails - a flag file RESTART_FAILED is created and script stops running until file is removed.
 
-#### vanity.sh - Find EOS key with certain short name in it by brute force
+#### vanity.sh - Find SNAX key with certain short name in it by brute force
 
 #### check_position.pl - Check producer position and notify if changed.
 
 #### check_producers.pl - Compare head blocks of two producer nodes and notify if out of sync.
 
-#### claim_eos.pl - Automated script to claim EOS BP rewards.
-
-#### claim_eos_sms.pl - Automated script to claim EOS BP rewards with SMS notication.
-
-#### claim_bos.pl - Automated script to claim BOS BP rewards.
-
-#### claim_bos_sms.pl - Automated script to claim BOS BP rewards with SMS notication.
-
-#### claim_wbi.pl - Automated script to claim Worbli BP rewards with SMS notication.
-
-#### claim_uos.pl - Automated script to claim UOS BP rewards with SMS notication.
+#### claim_snax.pl - Automated script to claim SNAX BP rewards.
 
 #### inspect_bp_keys.pl - Inspect registered producers keys and compare with account keys.
 
-#### monitor-logs.pl - Monitor nodeos log (stderr.txt) in tail mode and detect missed blocks by active producer, notify by SMS.
+#### monitor-logs.pl - Monitor `snaxnode` log (stderr.txt) in tail mode and detect missed blocks by active producer, notify by SMS.
 
-Author: Eugene Luzgin @ EOS Tribe
-Telegram: eluzgin
-Email: eugene@eostribe.io
+## Donate
 
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-brightgreen.svg?logo=paypal&longCache=true&style=for-the-badge)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=87JQKAAW9PZ42) [![Become a Patron](https://img.shields.io/badge/Donate-Patreon-f96854.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAmCAYAAAC29NkdAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsSAAALEgHS3X78AAAAB3RJTUUH4gUGBhApdi42CgAAAexJREFUWMPtmD2L1FAUQM/NjmCxoqyLuiK7jmAtiFharPgLxNJCrCzsra2sbK0EKxH/geAH2AgiCIOdI6wMgo04FjK4OntsMhLBWedlkofCHAhJk5eT+959uTcByJ8ZA6vAkATU48AmcAE4DawDe4FtYAC8Bh4DTyKiX95DREwfc8rxAzgwg9Dk3FWfm0ZP7f71GfMIlnL3nY9najF52aYjuGUzDNXD6m9zXVADFXVZHQIbNMN+oA8cqUayqCMHBNArB22SZaBXTZhkwfLm20CXdlhVn/7K7tRtRl0H3tMuAhsRMaizBu/RPgE8mlzMFMHJZqpuA3vIw8kiZe2plzLKAZxLneJr5GUzVfBMZsFTMwuqHWAps+BakZhZuemkCI53yfi2+JKSxTvA58yC/dQkeZBZ8EXSp05dAT5lFDxf50uy1WCJ1VySlHIAdzLJXY+IcXI1U0ZzABxrUW4EHARGRc0BLrYcvbMRMYqIeiV/RLwELrckdzMi3lTL/uSmqdJq3rBZbjXW1VUkr6jf5hQbq1er4zbSdpbdHWpHfVU+KIUd9a261GrjXpFdUe/OKPdQPVSZiakVSqP/Ziql2QlgDTgK7AO+Ah+Aj8C7iPie0kHNHcGEnjqJgozs9gfrnxCsw0JwIbgQ/N8FfwIXG7iJvkkzNgAAAABJRU5ErkJggg==&longCache=true&style=for-the-badge)](https://www.patreon.com/selabie68/overview) [![Donate STEEM](https://img.shields.io/badge/Donate-STEEM-669fd2.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAwCAYAAACFUvPfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAG80lEQVRogbWZfWxddRnHP8/vvnSbLp2dlKVr7zY2HCprF8WYoXFEkRBk0Whv1zEHfWFd19ZGgy/4EtNEyQiYkMja7m5lxSph7R0TCSq+LG6LwaCgVuwURTfaTmFDINACa+85j3/0ZX35/X6n0O77332+5/s833PO/T2/lyMsIOoyT+aTTGTyEkvq7v385a8uZO6piC9UoobOvhU5gl8Aay+mYQCzEElqO/rW5QgeB0qBfy1ETh/m/aTrO3qvDGPBr4FLAQT577xdRWBeT7qhs29FGJOfMm4YANXX52sqChbTKql0++2pm9re5ROme3piOQ2OAKlphPC2TRen21cWl7d9Ieq6GaZVUuX7MoreYZKL3/AJlw2vb0LYNDOuIl6dC0XpTErQ48boh6OuvWC6pcWUpPcdVNGdwOnT91e/6RLVdvQVCPIdK6l435ANqc+1XWYITgBrFfPMnE2nThZmQKvGf77sE8VjQRWw1M5q8Ry9ArA63bpCjRwXWAWg6q8N46aLy9u3q3LrRFDQEZ8ohOs99BXpnp7Y3CyrBNA19UZNRG0Ac0m69Z0i+v1pqZCcTyTCez10fv7w+qsj/QLF6fZtIJ+cVlv8tQHMYqgFCqaZgkKvSv2t0iifjio8Xudrs2IaURswIWbLbE+s+WBdJuHRDfjdyK11mSfzfZes+ezeVYzNoNNra3i5NzdgBH2PJZ48+0r4cbcp/hCRN18SSW+/DQzr7LnNdRG5McByKxPqNpdI0IejEqvwxR1dve/wlC6wx7U4lW79qC+3AU45nN00/gpn4aUlzxxD5EVfYmD54pzUuUhVY68LKPJNX2KDcNLBJXIxM2ugAGQrKgLV8Ce+xAAIt6V7+pI2Km/RyD8AV6e4vmRr64dcaQ1h+ICnbE1J5b1FVkblhx7dBFYuGw5usRHPPtD8KvCoS6ihfNvFmQEpfBRk0MHnkYt9yUYcqCk9jvI3n2MAEb7qnGxE9jl18KmSre1XWk2TrQhEwvs8RXet/sw9y2ycimYiPIOyrmBofYWNGuip/yWuMQUigVr/ngYgyAUdQGCvydIgkWy0cfGkdAHDkb5Fbnf4UlEOuHVU2pqBAThzpHkQIesUI82rqzoXzYy3by99GVXnK56C0p0Hn77RRgRBuB8YcujiQdzcZjUNgMgdgNqUAoXB0Os11qwS/x7gXMZeyKHfsMXP/LjpfyjOG1eltmhb5t1W0wPdu/8KuNuYyJdJzx5QbdXvfx6hI8o0wqb6zqevsVHxRMJ340tio7lmq+mxvHzXU3ZNiZyzDqh4KHcBkUvKEP26LX7qwZ0vgLpvXKTx0h13T86u00z3ZxueAh5zilWso7mtZsOAwA8iPANcV9/Ra21jQQzfjRckzy+ZnF1nLTGNqn0bNYayVPneT9iL6h7EOcNNIoyJte//51DjgAhdTqFKMy0tBiymnzvc+DhwzK01TbZ4x81lp4BDfssAbK/v6rWvmQP24Gi9wOqSvsIbwXHuIRr6/ttbitKZlI1QwjtxdKApyAsDGmxE/0MN/xblQbdUm8Bhuv9w01FwrpljhtxuG3GgamOfwiM+x2OQhqrOU7P6/hhl9nh01xal29Y7t02iutcjdq+1VT1FJ3FJgtcqbUR/tv6kwG9c6Y1KpdN0cjjoBs5ZlbDKtdbeX1P2BKquolNzOHc2oUirizOim52mn/1583nfpJGLmTKnIe8rnsQHdh3se5+NGNTlD7tWngobvbvqUEy3i1Nl1MVlqjf8SuApX+4xA7nNViJbESg85JDlvKbPdO/6C2DbVgVx0T/5tCFEL1stZ4ETMBIetcUVfh9x1CsK0m8pduR0tvF5nzIIk4fAf4IqKnkuLgzkOTuje+dwPj3rmEoRvTtKdbD2itdU+Jk3s+GMizPGzJpdBf48mG18LNK0wmXTfit3DXQ3Rp17jBVWfufPrcecpARrZ0TeVCM7IOJLQMnWzNrpR2RyYvDFs9+K8HrhajFPeNh/rjxd6tzYhsq080BFm8aXz37TEoaTQkWOjiwauoFjLZGLogmM5uQFF6dwZ0uLhM7amInaKir1g9nGyX2s90ORohOj+5FFQ6MVg9mvnJ+rYYBYLFjsoP4oI+fdRxDXtMRBrwICQar7D++edm3U162rEQ4NnD2746084SmY+b8EeCWMaXnHrqucfb5k+YqNECYErezPNhyeyUeZ7hro2X3PWOt7O9CNIFMDgaA3jy9jnQgNCSPhtf09TSdsvNiCC4Wdnb2/FeQjE15E5ZZMzYYfzTfvRTNdc9/fl8ZjIy+hxIFQofZAden9C5F7wb6Nz0RMRjePG35DlG37a0qjDyzniItmWoSPAedQ3ZKpKfP067eOi2Za0VBENu2vLl3wD/z/B6SfTES3K+bPAAAAAElFTkSuQmCC&longCache=true&style=for-the-badge)](https://steemit.com/@anarcist69) [![Donate with Bitcoin](https://img.shields.io/badge/Donate-Bitcoin-orange.svg?logo=bitcoin&longCache=true&style=for-the-badge)](bitcoin:17gqqZZnr57maB3Ze5UnosBo9mtU1RTrD5)
 
+SNAX: anarcist
+
+Bitcoin: 17gqqZZnr57maB3Ze5UnosBo9mtU1RTrD5
+
+Bitcoin Cash: qpu8736yqqhkfd5gsyph6a0wy0e4r83ap50tdsknv2
+
+ETH: 0x927ad35fDc46Dc727fccd1E10A0ebe70a57BAA7D
