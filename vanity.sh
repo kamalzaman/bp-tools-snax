@@ -9,7 +9,7 @@ echo "Finding keys containing : $1"
 STRING=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
 while true; do
-    output=$(cleos create key)
+    output=$(./clisnax create key)
     pub=$(cut -d ' ' -f 5 <<< "${output//[$'\r\n']}")
     pub=$(echo "$pub" | tr '[:upper:]' '[:lower:]')
     if [[ $pub =~ .*$STRING.* ]]; then
